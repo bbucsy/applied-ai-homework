@@ -177,7 +177,7 @@ dist
 .DS_Store
 
 
-data/
-db/
+data/*
+db/*
 .vscode
 .voronhelper.yaml

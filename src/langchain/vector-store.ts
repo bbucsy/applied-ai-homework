@@ -1,8 +1,8 @@
-
-import type { Config } from "../models/config";
-import { getEmbeddingModel } from "./embeddings";
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
 import { readdir } from "node:fs/promises";
+
+import { getEmbeddingModel } from "./embeddings";
+import type { Config } from "../models/config";
 
 
 const dirExsist = async (path: String): Promise<boolean> => {
@@ -21,10 +21,8 @@ export async function getVectorStore(config: Config) {
     const embedding = getEmbeddingModel(config);
 
     if (await dirExsist(dir)) {
-        console.log('Db found')
         return await HNSWLib.load(dir, embedding)
     }
-    console.log('Db not found, creating new')
 
     return new HNSWLib(embedding, {
         space: 'cosine'

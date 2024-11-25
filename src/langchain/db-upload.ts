@@ -1,19 +1,13 @@
-import type { Config } from "../models/config";
 import { MultiFileLoader } from "langchain/document_loaders/fs/multi_file";
-import {
-    JSONLoader,
-    JSONLinesLoader,
-} from "langchain/document_loaders/fs/json";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
 import { TextLoader } from "langchain/document_loaders/fs/text";
-
-
-
 import { readdirSync, statSync } from "fs";
 import { join } from "path";
-import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+
 import { getVectorStore } from "./vector-store";
+import type { Config } from "../models/config";
+
 
 // Function to recursively find files
 function findFiles(startPath: string, extensions: string[]): string[] {
@@ -38,7 +32,7 @@ function findFiles(startPath: string, extensions: string[]): string[] {
 
 
 export async function loadDatabase(config: Config) {
-    const foundFiles = findFiles('./data', ['.md', '.txt', '.csv', '.pdf'])
+    const foundFiles = findFiles('./data', ['.md', '.txt', '.csv'])
 
 
     const loader = new MultiFileLoader(
@@ -46,8 +40,7 @@ export async function loadDatabase(config: Config) {
         {
             ".md": (path) => new TextLoader(path),
             ".txt": (path) => new TextLoader(path),
-            ".csv": (path) => new CSVLoader(path, "text"),
-            ".pdf": (path) => new PDFLoader(path),
+            ".csv": (path) => new CSVLoader(path),
         }
     );
 

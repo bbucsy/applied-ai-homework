@@ -1,15 +1,17 @@
 import { Command } from "commander";
-import { loadConfig } from "./models/config";
 import { $ } from "bun";
-import { loadDatabase } from "./langchain/db-upload";
+
 import { getVectorStore } from "./langchain/vector-store";
+import { startChatLoop } from "./langchain/chat-loop";
+import { loadDatabase } from "./langchain/db-upload";
+import { loadConfig } from "./models/config";
 
 
 const program = new Command();
 const config = await loadConfig();
 
 program
-  .name("voron-bot")
+  .name("voron-ai")
   .description("CLI chat-bot for easy querying Voron documentations")
   .version("0.0.1");
 
@@ -59,7 +61,7 @@ program
   .command('chat')
   .description('Starts an interactive chat with an AI Voron assitant')
   .action(async () => {
-
+    await startChatLoop(config)
   })
 
 program.parse();
