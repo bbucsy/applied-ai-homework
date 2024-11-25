@@ -1,0 +1,12 @@
+repos:
+  - https://github.com/VoronDesign/Voron-Documentation.git
+  - https://github.com/VoronDesign/Voron-0.git
+
+llama:
+  model: llama3.2
+  embeddingModel: mxbai-embed-large
+  baseUrl: http://localhost:11434
+
+chroma:
+  url: localhost:8080
+  collection: default
